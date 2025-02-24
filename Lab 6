@@ -1,0 +1,121 @@
+# 1. Directories and files
+import os
+import math
+import time
+import functools
+import shutil
+
+# Create a directory
+os.makedirs("test_directory", exist_ok=True)
+
+# Create and write to a file with more content
+with open("test_directory/example.txt", "w") as file:
+    file.writelines("Hello, this is a test file.\n" * 100)
+
+# Read the file
+with open("test_directory/example.txt", "r") as file:
+    content = file.read()
+    print("File Content (first 200 chars):", content[:200])
+
+# Delete the file
+os.remove("test_directory/example.txt")
+
+# Remove the directory
+os.rmdir("test_directory")
+
+# 2. Built-in functions of Python
+
+# Using some common built-in functions
+print("Absolute Value:", abs(-10000))
+print("Maximum Value:", max(range(1, 100)))
+print("Minimum Value:", min(range(-50, 50)))
+print("Sum of List:", sum(range(1, 101)))
+print("Length of String:", len("Python Programming Language"))
+
+# 3. Multiply all numbers in a list
+def multiply_list(lst):
+    return functools.reduce(lambda x, y: x * y, lst)
+print("Product of List:", multiply_list([1, 2, 3, 4, 5]))
+
+# 4. Count uppercase and lowercase letters
+def count_case(s):
+    upper = sum(1 for c in s if c.isupper())
+    lower = sum(1 for c in s if c.islower())
+    return upper, lower
+print("Upper and Lower Case Count:", count_case("Hello World"))
+
+# 5. Check if a string is a palindrome
+def is_palindrome(s):
+    return s == s[::-1]
+print("Is Palindrome:", is_palindrome("madam"))
+
+# 6. Square root after specific milliseconds
+def delayed_sqrt(num, delay):
+    time.sleep(delay / 1000)
+    return math.sqrt(num)
+num, delay = 25100, 2123
+print(f"Square root of {num} after {delay} milliseconds is {delayed_sqrt(num, delay)}")
+
+# 7. Check if all elements in a tuple are true
+def all_true(t):
+    return all(t)
+print("All elements True:", all_true((True, True, True)))
+
+# 8. List directories and files with more content
+def list_files_dirs(path):
+    os.makedirs(path, exist_ok=True)
+    for i in range(10):
+        open(os.path.join(path, f"file{i}.txt"), "w").close()
+    print("Directories:", [d for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))])
+    print("Files:", [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))])
+    print("All:", os.listdir(path))
+list_files_dirs("sample_dir")
+
+# 9. Check access to a path with large directory
+def check_access(path):
+    os.makedirs(path, exist_ok=True)
+    return os.access(path, os.F_OK), os.access(path, os.R_OK), os.access(path, os.W_OK), os.access(path, os.X_OK)
+print("Access Checks:", check_access("sample_dir"))
+
+# 10. Check if path exists and get filename, directory with a longer path
+def path_info(path):
+    if os.path.exists(path):
+        return os.path.basename(path), os.path.dirname(path)
+    return None
+print("Path Info:", path_info("sample_dir/file5.txt"))
+
+# 11. Count lines in a large text file
+def count_lines(filename):
+    with open(filename, "w") as file:
+        file.writelines("This is line number " + str(i) + "\n" for i in range(10000))
+    with open(filename, "r") as file:
+        return sum(1 for line in file)
+print("Number of Lines:", count_lines("large_file.txt"))
+
+# 12. Write a large list to a file
+def write_list_to_file(filename, data):
+    with open(filename, "w") as file:
+        file.writelines("\n".join(data))
+write_list_to_file("list_output.txt", [f"Item {i}" for i in range(1000)])
+
+# 13. Generate 26 text files (A.txt to Z.txt) with more content
+def generate_text_files():
+    for char in range(65, 91):
+        with open(f"{chr(char)}.txt", "w") as file:
+            file.writelines(f"This is file {chr(char)}.txt\n" * 1000)
+generate_text_files()
+
+# 14. Copy file contents with a large file
+def copy_file(src, dest):
+    with open(src, "w") as file:
+        file.writelines("Copied content example.\n" * 10000)
+    shutil.copy(src, dest)
+copy_file("source.txt", "destination.txt")
+
+# 15. Delete a file safely after large checks
+def delete_file(path):
+    if os.path.exists(path) and os.access(path, os.W_OK):
+        os.remove(path)
+        return True
+    return False
+print("File Deletion Successful:", delete_file("source.txt"))
